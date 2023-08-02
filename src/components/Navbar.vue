@@ -13,6 +13,7 @@ import { RouterLink } from 'vue-router';
             <ul class="nav-links">
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
+                <button class="button uploadData">Upload Data</button>
             </ul>
         </nav>
     </header>
