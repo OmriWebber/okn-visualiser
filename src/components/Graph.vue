@@ -1,36 +1,25 @@
-<template>
-    <Line
-        id="my-chart-id"
-        :options="chartOptions"
-        :data="chartData"
-    />
-</template>
-  
 <script>
-  import { Line } from 'vue-chartjs'
-  import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-  
-  ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-  
-  export default {
-    name: 'Graph',
-    components: { Line },
-    data() {
-      return {
-        chartData: {
-          labels: [ 'January', 'February', 'March' ],
-          datasets: [ { data: [40, 20, 12] } ]
-        },
-        chartOptions: {
-          responsive: true
-        }
-      }
-    }
-  }
+
 </script>
 
+<template>
+    <div class="graph-wrapper">
+        <div class="graph">
+            <h1>Graph</h1>
+        </div>
+    </div>
+</template>
+  
 
 
 <style lang="scss" scoped>
+    .graph-wrapper {
+        width: 60%;
+        float: left;
+        .graph {
+            max-width: 100%;
+        }
+    }
+    
 
 </style>

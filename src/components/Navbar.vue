@@ -23,11 +23,12 @@ import { RouterLink } from 'vue-router';
 
 <style lang="scss" scoped>
     header {
-        background-color: #f1f1f1;
+        background-color: #202020;
         nav {
             display: flex;
             align-items: center;
             padding: 25px 16px;
+            color: rgb(216, 216, 216);
 
             .branding {
                 display: flex;
