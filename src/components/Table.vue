@@ -3,11 +3,10 @@
 </script>
 
 <template>
-    <div class="table-wrapper">
+    <div class="wrapper table-wrapper">
         <table class="table"><h1>Table</h1></table>
     </div>
 </template>
-
 
 
 <style lang="scss" scoped>
