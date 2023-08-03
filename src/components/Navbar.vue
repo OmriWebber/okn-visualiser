@@ -50,6 +50,8 @@ import { RouterLink } from 'vue-router';
                 justify-content: flex-end;
                 gap: 12px;
                 list-style: none;
+                margin-bottom: 0px;
+                margin-top: 10px;
 
                 a {
                     text-decoration: none;
