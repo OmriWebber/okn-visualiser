@@ -2,16 +2,18 @@
 import Graph from '../components/Graph.vue'
 import Table from '../components/Table.vue'
 import Controls from '../components/Controls.vue'
+import FileUpload from '../components/fileUpload.vue'
 
-const dataURL = "data.csv";
-
+import { useDataStore } from "../components/store/store";
+const store = useDataStore();
 </script>
 
 <template>
   <main>
     <div class="container">
+      <FileUpload />
       <div class="row">
-        <Graph :msg=dataURL />
+        <Graph />
         <Controls />
       </div>
       <div class="row">

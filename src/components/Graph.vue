@@ -3,15 +3,21 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import Chart from 'chart.js/auto'
 import Papa from 'papaparse'
 import axios from 'axios'
+import { useDataStore } from "../components/store/store";
+
+
 
 export default {
   setup() {
+    const store = useDataStore()
+    const data = store.data
+    console.log(data)
+
     const chart = ref(null)
     let chartInstance = null
 
     onMounted(async () => {
-      const response = await axios.get('okn.csv')
-      const parsedData = Papa.parse(response.data, { header: true, dynamicTyping: true }).data
+      const parsedData = Papa.parse(store.data, { header: true, dynamicTyping: true }).data
 
       const data = {
         labels: parsedData.map(row => row.t),
@@ -50,6 +56,7 @@ export default {
     <div class="col-8 wrapper graph-wrapper">
         <div class="graph">
             <h1>Graph</h1>
+            {{ msg }}
             <canvas ref="chart"></canvas>
         </div>
     </div>

@@ -1,7 +1,6 @@
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
 import Papa from 'papaparse'
-import axios from 'axios'
+
 
 export default {
     data() {
@@ -11,7 +10,6 @@ export default {
     },
     methods: {
         csvToJson() {
-            console.log("test")
             let csvFile = this.$refs.file.files[0]
 
             if(csvFile == undefined) {
@@ -43,7 +41,7 @@ export default {
             </label>
             <button v-on:click="csvToJson()">Upload</button>
         </div>
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th scope="col">id</th>
@@ -130,12 +128,13 @@ export default {
 
 <style lang="scss" scoped>
 .table-wrapper {
+    width: 100%;
     height: 600px;
+    overflow: scroll;
     .table {
-        max-height: 600px;
-        overflow-y: scroll;
-        max-width: 100px !important;
-        overflow-x: hidden;
+        th,td {
+            border: 1px solid black;
+        }
     }
 }
     
