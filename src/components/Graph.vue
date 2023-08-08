@@ -1,54 +1,41 @@
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
-import Chart from 'chart.js/auto'
-import Papa from 'papaparse'
-import axios from 'axios'
-import { useDataStore } from "../components/store/store";
-
-
+// Graph.vue
+import { Line } from 'vue-chartjs';
+import { ref, watch } from 'vue';
+import { useChartStore } from '@/store/csvStore';
 
 export default {
-  setup() {
-    const store = useDataStore()
-    const data = store.data
-    console.log(data)
-
-    const chart = ref(null)
-    let chartInstance = null
-
-    onMounted(async () => {
-      const parsedData = Papa.parse(store.data, { header: true, dynamicTyping: true }).data
-
-      const data = {
-        labels: parsedData.map(row => row.t),
-        datasets: [
-          {
-            data: parsedData.map(row => ({x: row.t, y: row.x})),
-            fill: true,
-            pointRadius: 1,
-            borderColor: parsedData.map(row => row.is_sp ? '#00ff00' : row.is_qp ? '#ff0000' : '#000000'),
-          }
-        ]
+  extends: Line,
+  data() {
+    return {
+      chartData: null,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
       }
+    };
+  },
+  watch: {
+    chartData: (newData) => {
+      this.renderChart(newData, this.options);
+    }
+  },
+  mounted() {
+    const chartStore = useChartStore();
+    this.chartData = chartStore.data;
 
-      
-
-      const options = { responsive: true, maintainAspectRatio: true, plugins: { legend: {display: false} }}
-
-      chartInstance = new Chart(chart.value, {
-        type: 'line',
-        data,
-        options,
-      })
-    })
-
-    onUnmounted(() => {
-      if (chartInstance) chartInstance.destroy()
-    })
-
-    return { chart }
-  }
+    watch(() => chartStore.data, (newData) => {
+        this.chartData = newData;
+    });
 }
+};
+
+
+
+
+
+
+
 </script>
 
 
@@ -56,8 +43,8 @@ export default {
     <div class="col-8 wrapper graph-wrapper">
         <div class="graph">
             <h1>Graph</h1>
-            {{ msg }}
-            <canvas ref="chart"></canvas>
+            <Line :data="data" :options="options" />
+
         </div>
     </div>
 </template>

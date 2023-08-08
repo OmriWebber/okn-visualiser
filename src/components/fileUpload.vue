@@ -1,47 +1,44 @@
 <script>
-import Papa from 'papaparse'
-import { useDataStore } from "../components/store/store";
-    
+import Papa from 'papaparse';
+import { useChartStore } from '@/store/csvStore';
 
 export default {
-        setup: () => ({ dataStore: useDataStore() }),
-        data() {
-            return {
-                csvData:[],
-        }
-    },
-    
-    methods: {
-        csvToJson() {
-            let csvStore = this.dataStore
-            console.log(csvStore)
-            let csvFile = this.$refs.file.files[0]
+  methods: {
+    processFile(event) {
+      const file = event.target.files[0];
+      
+      if (file) {
+        Papa.parse(file, {
+          complete: (result) => {
+            const chartStore = useChartStore();
+            const labels = [];
+            const data = [];
 
-            if(csvFile == undefined) {
-                alert("Please select a file.")
-                this.csvData=[];
-                return;
-            }
+            // Assuming the CSV has two columns: Label and Value
+            result.data.forEach(row => {
+              labels.push(row[0]);
+              data.push(row[1]);
+            });
 
-            let that = this
-            Papa.parse(csvFile, {
-                header: true,
-                dynamicTyping: true,
-                complete: function(results) {
-                    console.log(results.data)
-                    csvStore.data = results.data
-                }
-            })
-        }
+            chartStore.updateData({
+              labels,
+              datasets: [{
+                label: 'CSV Data',
+                backgroundColor: '#f87979',
+                data
+              }]
+            });
+          }
+        });
+      }
     }
-}
-    
+  }
+};
 </script>
 
 <template>
     <div class="fileUpload">
-        <label>File<input type="file" ref="file" id="file" /></label>
-        <button v-on:click="csvToJson()">Upload</button>
+        <input type="file" @change="processFile($event)">
     </div>
 </template>
 
