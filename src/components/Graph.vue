@@ -1,39 +1,56 @@
 <script>
-// Graph.vue
-import { Line } from 'vue-chartjs';
-import { ref, watch } from 'vue';
-import { useChartStore } from '@/store/csvStore';
+import { ref, watch, isProxy, toRaw, onUnmounted } from 'vue';
+import Chart from 'chart.js/auto'
+import { useChartStore } from '@/store';
+
 
 export default {
-  extends: Line,
-  data() {
-    return {
-      chartData: null,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    };
-  },
-  watch: {
-    chartData: (newData) => {
-      this.renderChart(newData, this.options);
+    setup() {
+        const chartStore = useChartStore()
+
+        const chart = ref(null)
+        let chartInstance = null
+
+        onUnmounted(() => {
+            if (chartInstance) chartInstance.destroy()
+        })
+
+        watch(() => chartStore.data, (newData) => {
+            
+            
+            let rawData = newData;
+
+            if(isProxy(newData)) {
+                rawData = toRaw(newData)
+            }
+
+            const data = {
+                labels: rawData.map(row => row.t),
+                datasets: [
+                {
+                    data: rawData.map(row => ({x: row.t, y: row.x})),
+                    fill: false,
+                    pointRadius: 1,
+                    //borderColor: '#ff0000',
+                    borderColor: rawData.map(row => row.is_sp ? '#00ff00' : row.is_qp ? '#ff0000' : '#ff0000'),
+                }
+                ]
+            }
+
+            console.log(data)
+
+            const options = { responsive: true, maintainAspectRatio: true, plugins: { legend: {display: false} }}
+            
+            chartInstance = new Chart(chart.value, {
+                type: 'line',
+                data,
+                options,
+            })
+        });
+
+        return { chart }
     }
-  },
-  mounted() {
-    const chartStore = useChartStore();
-    this.chartData = chartStore.data;
-
-    watch(() => chartStore.data, (newData) => {
-        this.chartData = newData;
-    });
-}
 };
-
-
-
-
-
 
 
 </script>
@@ -43,8 +60,7 @@ export default {
     <div class="col-8 wrapper graph-wrapper">
         <div class="graph">
             <h1>Graph</h1>
-            <Line :data="data" :options="options" />
-
+            <canvas ref="chart"></canvas>
         </div>
     </div>
 </template>

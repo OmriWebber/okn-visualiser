@@ -1,36 +1,24 @@
 <script>
 import Papa from 'papaparse';
-import { useChartStore } from '@/store/csvStore';
+import { useChartStore } from '@/store';
 
 export default {
   methods: {
-    processFile(event) {
-      const file = event.target.files[0];
-      
-      if (file) {
-        Papa.parse(file, {
-          complete: (result) => {
-            const chartStore = useChartStore();
-            const labels = [];
-            const data = [];
+    handleFileUpload(event) {
+        const file = event.target.files[0];
+        const chartStore = useChartStore();
 
-            // Assuming the CSV has two columns: Label and Value
-            result.data.forEach(row => {
-              labels.push(row[0]);
-              data.push(row[1]);
+        if (file) {
+            Papa.parse(file, {
+                header: true,
+                dynamicTyping: true,
+                complete: result => {
+                    const data = result.data;
+                    console.log(data)
+                    chartStore.setData(data);
+                }
             });
-
-            chartStore.updateData({
-              labels,
-              datasets: [{
-                label: 'CSV Data',
-                backgroundColor: '#f87979',
-                data
-              }]
-            });
-          }
-        });
-      }
+        }
     }
   }
 };
@@ -38,7 +26,7 @@ export default {
 
 <template>
     <div class="fileUpload">
-        <input type="file" @change="processFile($event)">
+        <input type="file" @change="handleFileUpload">
     </div>
 </template>
 

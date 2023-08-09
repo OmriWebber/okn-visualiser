@@ -10,6 +10,22 @@ export default {
     Table,
     Controls,
     FileUpload
+  },
+  data() {
+    return {
+      chartData: null
+    }
+  },
+  methods: {
+    updateChartData({ x, t }) {
+      this.chartData = {
+        labels: x, // assuming "t" is the data for x-axis
+        datasets: [{
+          label: 'T Data',
+          data: t
+        }]
+      }
+    }
   }
 }
 </script>
