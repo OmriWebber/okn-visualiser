@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="col-4 wrapper controls-wrapper">
+    <div class="wrapper controls-wrapper">
         <div class="controls"><h1>Controls</h1></div>
     </div>
 </template>

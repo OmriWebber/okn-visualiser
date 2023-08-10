@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-    <div class="col-12 wrapper table-wrapper">
+    <div class="wrapper table-wrapper">
         <div class="fileUpload">
             <label>
                 File

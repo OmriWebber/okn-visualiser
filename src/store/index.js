@@ -5,12 +5,17 @@ export const useChartStore = defineStore({
   id: 'chart',
 
   state: () => ({
-    data: []
+    data: [],
+    focusedPoint: null,
   }),
 
   actions: {
     setData(data) {
       this.data = data;
+    },
+    setFocusedPoint(point) {
+      this.focusedPoint = point;
+
     }
   }
 });
