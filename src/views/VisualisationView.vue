@@ -33,7 +33,7 @@ export default {
 <template>
   <main>
     <div class="container">
-    <center><p>Upload an 'signal' csv file to visualise</p></center>
+    <center><p>Upload an 'signal' csv file to visualise OKN detection.</p></center>
 
       <FileUpload />
       <div class="row">
