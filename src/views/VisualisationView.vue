@@ -19,7 +19,7 @@ export default {
   methods: {
     updateChartData({ x, t }) {
       this.chartData = {
-        labels: x, // assuming "t" is the data for x-axis
+        labels: x, // assuming "x" is the data for x-axis
         datasets: [{
           label: 'T Data',
           data: t
@@ -33,13 +33,18 @@ export default {
 <template>
   <main>
     <div class="container">
+    <center><p>Upload an 'signal' csv file to visualise</p></center>
+
       <FileUpload />
       <div class="row">
-        <Graph />
-        <Controls />
+        <div class="col-12">
+          <Graph />
+        </div>
       </div>
       <div class="row">
-        <Table />
+        <div class="col-12">
+          <Table />
+        </div>
       </div>
     </div>
     

@@ -11,9 +11,8 @@ import { RouterLink } from 'vue-router';
                 <h1>OKN Visualiser</h1>
             </div>
             <ul class="nav-links">
-                <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
-                <button class="button uploadData">Upload Data</button>
+                <RouterLink to="/">Visualisation</RouterLink>
+                <RouterLink to="/manipulation">Manipulation</RouterLink>
             </ul>
         </nav>
     </header>
