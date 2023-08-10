@@ -1,6 +1,7 @@
 <script>
-import { ref, watch, isProxy, toRaw, onUnmounted } from 'vue';
+import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 import Chart from 'chart.js/auto'
+
 import { useChartStore } from '@/store';
 
 
@@ -16,7 +17,8 @@ export default {
         })
 
         watch(() => chartStore.data, (newData) => {
-            
+            console.log(chartInstance)
+            if (chartInstance) chartInstance.destroy()
             
             let rawData = newData;
 
@@ -32,12 +34,10 @@ export default {
                     fill: false,
                     pointRadius: 1,
                     //borderColor: '#ff0000',
-                    borderColor: rawData.map(row => row.is_sp ? '#00ff00' : row.is_qp ? '#ff0000' : '#ff0000'),
+                    borderColor: rawData.map(row => row.is_sp ? '#00ff00' : row.is_qp ? '#ff0000' : '#000000'),
                 }
                 ]
             }
-
-            console.log(data)
 
             const options = { responsive: true, maintainAspectRatio: true, plugins: { legend: {display: false} }}
             
@@ -46,9 +46,31 @@ export default {
                 data,
                 options,
             })
+
+            function clickHandler(evt) {
+                const points = chartInstance.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                if (points.length) {
+                    const firstPoint = points[0];
+                    const label = chartInstance.data.labels[firstPoint.index];
+                    const value = chartInstance.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+                    
+                    chartStore.setFocusedPoint(value);
+                    console.log(chartStore.focusedPoint);
+
+                    let rawPoint = chartStore.focusedPoint;
+
+                    if(isProxy(rawPoint)) {
+                        rawPoint = toRaw(chartStore.focusedPoint)
+                    }
+                    chartStore.setFocusedPoint(rawPoint);
+
+                }
+            }
+
+            chartInstance.options.onClick = clickHandler;
         });
 
-        return { chart }
+        return { chart, focusedPoint: chartStore.focusedPoint }
     }
 };
 
@@ -57,10 +79,14 @@ export default {
 
 
 <template>
-    <div class="col-8 wrapper graph-wrapper">
+    <div class="wrapper graph-wrapper">
         <div class="graph">
             <h1>Graph</h1>
             <canvas ref="chart"></canvas>
+        </div>
+        <div class="focusedPoint">
+            <h1>Focused Point</h1>
+            <p>{{ focusedPoint }}</p>
         </div>
     </div>
 </template>
