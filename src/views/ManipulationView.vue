@@ -18,7 +18,7 @@ export default {
 <template>
   <main class="manipulation">
     <div class="container">
-    <center><p>Upload an 'updated' csv file to visualise and then manipulate OKN detection with config controls.</p></center>
+    <p>Upload an 'updated' csv file to visualise and then manipulate OKN detection with config controls.</p>
 
       <FileUpload />
       <div class="row">

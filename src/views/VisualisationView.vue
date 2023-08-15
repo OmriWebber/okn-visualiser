@@ -3,6 +3,7 @@ import Graph from '../components/Graph.vue'
 import Table from '../components/Table.vue'
 import Controls from '../components/Controls.vue'
 import FileUpload from '../components/fileUpload.vue'
+import { useChartStore } from '@/store';
 
 export default {
   components: {
@@ -10,22 +11,6 @@ export default {
     Table,
     Controls,
     FileUpload
-  },
-  data() {
-    return {
-      chartData: null
-    }
-  },
-  methods: {
-    updateChartData({ x, t }) {
-      this.chartData = {
-        labels: x, // assuming "x" is the data for x-axis
-        datasets: [{
-          label: 'T Data',
-          data: t
-        }]
-      }
-    }
   }
 }
 </script>
@@ -33,9 +18,12 @@ export default {
 <template>
   <main>
     <div class="container">
-    <center><p>Upload an 'signal' csv file to visualise OKN detection.</p></center>
-
-      <FileUpload />
+      <div class="row">
+        <div class="col-12">
+          <p>Upload an 'signal' csv file to visualise OKN detection.</p>
+          <FileUpload />
+        </div>
+      </div>
       <div class="row">
         <div class="col-12">
           <Graph />

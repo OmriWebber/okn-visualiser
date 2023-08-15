@@ -1,4 +1,4 @@
-// store/csvStore.js
+// store/index.js
 import { defineStore } from 'pinia';
 
 export const useChartStore = defineStore({
@@ -16,6 +16,14 @@ export const useChartStore = defineStore({
     setFocusedPoint(point) {
       this.focusedPoint = point;
 
+    }
+  },
+  getters: {
+    getFocusedPoint() {
+      return this.focusedPoint;
+    },
+    getCSVData() {
+      return this.data;
     }
   }
 });

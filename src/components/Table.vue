@@ -1,48 +1,38 @@
 <script>
-import Papa from 'papaparse'
-
+import { useChartStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 
 export default {
     data() {
         return {
-            csvData:[],
-        }
+            data: ref(null),
+        };
     },
-    methods: {
-        csvToJson() {
-            let csvFile = this.$refs.file.files[0]
+    setup() {
+        const store = useChartStore();
+        let storeData = storeToRefs(store).getCSVData;
 
-            if(csvFile == undefined) {
-                alert("Please select a file.")
-                this.csvData=[];
-                return;
+        onUnmounted(() => {
+            return { data : null }
+        })
+
+        watch(() => storeData, (newData) => {
+            if (isProxy(newData)) {
+                storeData = toRaw(newData);
             }
-
-            let that = this
-            Papa.parse(csvFile, {
-                header: true,
-                dynamicTyping: true,
-                complete: function(results) {
-                    that.csvData = results.data
-                    console.log(that.csvData)
-                }
-            })
-        }
+        });
+        return { data: storeData };
     }
 }
+
+
 </script>
 
 <template>
     <div class="wrapper table-wrapper">
-        <div class="fileUpload">
-            <label>
-                File
-                <input type="file" ref="file" id="file" />
-            </label>
-            <button v-on:click="csvToJson()">Upload</button>
-        </div>
-        <table class="table">
-            <thead>
+        <table class="table table-striped table-hover">
+            <thead class="table-sticky table-dark">
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">t</th>
@@ -80,41 +70,41 @@ export default {
                 </tr>
             </thead>
 
-            <tbody v-for="(data, i) in csvData" :key="i">
-                <tr>
-                    <td>{{ data.id }}</td>
-                    <td>{{ data.t }}</td>
-                    <td>{{ data.s }}</td>
-                    <td>{{ data.x }}</td>
-                    <td>{{ data.y }}</td>
-                    <td>{{ data.v }}</td>
-                    <td>{{ data.e }}</td>
-                    <td>{{ data.e1 }}</td>
-                    <td>{{ data.t_local }}</td>
-                    <td>{{ data.blink }}</td>
-                    <td>{{ data.plateau }}</td>
-                    <td>{{ data.state }}</td>
-                    <td>{{ data.ramp_direction }}</td>
-                    <td>{{ data.sp_start_time }}</td>
-                    <td>{{ data.sp_end_time }}</td>
-                    <td>{{ data.sp_start_displacement }}</td>
-                    <td>{{ data.sp_end_displacement }}</td>
-                    <td>{{ data.sp_duration }}</td>
-                    <td>{{ data.qp_start_time }}</td>
-                    <td>{{ data.qp_end_time }}</td>
-                    <td>{{ data.qp_start_displacement }}</td>
-                    <td>{{ data.qp_end_displacement }}</td>
-                    <td>{{ data.qp_duration }}</td>
-                    <td>{{ data.chain_id }}</td>
-                    <td>{{ data.expected_sp_ramp_direction }}</td>
-                    <td>{{ data.expected_qp_ramp_direction }}</td>
-                    <td>{{ data.expected_qp_peak_velocity }}</td>
-                    <td>{{ data.expected_sp_end_peak_type }}</td>
-                    <td>{{ data.expected_sp_end_bound }}</td>
-                    <td>{{ data.result_id }}</td>
-                    <td>{{ data.result_chain_id }}</td>
-                    <td>{{ data.is_sp }}</td>
-                    <td>{{ data.is_qp }}</td>
+            <tbody>
+                <tr v-for="(item) in data" :key="item">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.t }}</td>
+                    <td>{{ item.s }}</td>
+                    <td>{{ item.x }}</td>
+                    <td>{{ item.y }}</td>
+                    <td>{{ item.v }}</td>
+                    <td>{{ item.e }}</td>
+                    <td>{{ item.e1 }}</td>
+                    <td>{{ item.t_local }}</td>
+                    <td>{{ item.blink }}</td>
+                    <td>{{ item.plateau }}</td>
+                    <td>{{ item.state }}</td>
+                    <td>{{ item.ramp_direction }}</td>
+                    <td>{{ item.sp_start_time }}</td>
+                    <td>{{ item.sp_end_time }}</td>
+                    <td>{{ item.sp_start_displacement }}</td>
+                    <td>{{ item.sp_end_displacement }}</td>
+                    <td>{{ item.sp_duration }}</td>
+                    <td>{{ item.qp_start_time }}</td>
+                    <td>{{ item.qp_end_time }}</td>
+                    <td>{{ item.qp_start_displacement }}</td>
+                    <td>{{ item.qp_end_displacement }}</td>
+                    <td>{{ item.qp_duration }}</td>
+                    <td>{{ item.chain_id }}</td>
+                    <td>{{ item.expected_sp_ramp_direction }}</td>
+                    <td>{{ item.expected_qp_ramp_direction }}</td>
+                    <td>{{ item.expected_qp_peak_velocity }}</td>
+                    <td>{{ item.expected_sp_end_peak_type }}</td>
+                    <td>{{ item.expected_sp_end_bound }}</td>
+                    <td>{{ item.result_id }}</td>
+                    <td>{{ item.result_chain_id }}</td>
+                    <td>{{ item.is_sp }}</td>
+                    <td>{{ item.is_qp }}</td>
                 </tr>
                 
             </tbody>
@@ -134,6 +124,18 @@ export default {
     .table {
         th,td {
             border: 1px solid black;
+        }
+        tbody td:first-child {
+            position: sticky;
+            left: 0;
+            margin-left: -1px;
+            background-color: rgba($color: #dfdfdf, $alpha: 1)
+        }
+
+        thead th:first-child {
+            position: sticky;
+            left: 0;
+            margin-left: -1px;
         }
     }
 }

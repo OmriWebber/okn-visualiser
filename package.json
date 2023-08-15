@@ -13,12 +13,16 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
     "bootstrap-vue": "^2.23.1",
+    "bootstrap-vue-3": "^0.5.1",
+    "bootstrap-vue-next": "^0.10.1",
     "d3": "^7.8.5",
     "papaparse": "^5.4.1",
     "pinia": "^2.1.6",
+    "v-tables-3": "^0.4.7",
     "vue": "^3.3.4",
     "vue-csv-import": "^4.1.2",
     "vue-router": "^4.2.4",
+    "vue-tables-2": "^2.3.5",
     "vuex": "^4.1.0"
   },
   "devDependencies": {

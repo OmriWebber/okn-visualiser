@@ -17,7 +17,6 @@ export default {
         })
 
         watch(() => chartStore.data, (newData) => {
-            console.log(chartInstance)
             if (chartInstance) chartInstance.destroy()
             
             let rawData = newData;
@@ -81,12 +80,7 @@ export default {
 <template>
     <div class="wrapper graph-wrapper">
         <div class="graph">
-            <h1>Graph</h1>
             <canvas ref="chart"></canvas>
-        </div>
-        <div class="focusedPoint">
-            <h1>Focused Point</h1>
-            <p>{{ focusedPoint }}</p>
         </div>
     </div>
 </template>

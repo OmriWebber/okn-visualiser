@@ -17,6 +17,10 @@ main {
 .container {
     max-width: 1100px;
     margin: 0 auto;
+
+    .row {
+        padding: 10px;
+    }
 }
 
 .button {
@@ -39,11 +43,21 @@ main {
     color: rgb(255, 255, 255);
 }
 
-.wrapper {
-    border: 2px solid grey;
-    background-color: lightGrey;
-}
+
+
 
 .row > * {
     padding: 0px;
+}
+
+.table-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.column-sticky {
+    position: sticky;
+    left: 0;
+    z-index: 1;
 }
