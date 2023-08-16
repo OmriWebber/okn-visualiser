@@ -1,0 +1,9 @@
+Todo :
+
+- Revise Hi-Fi to include export button
+
+- File Upload Verification
+- Alert Notifications
+- Manipulation Controls & Functions
+- Export via CSV / JSON
+- 
