@@ -3,7 +3,6 @@ import Graph from '../components/Graph.vue'
 import Table from '../components/Table.vue'
 import Controls from '../components/Controls.vue'
 import FileUpload from '../components/fileUpload.vue'
-import { useChartStore } from '@/store';
 
 export default {
   components: {
@@ -20,7 +19,7 @@ export default {
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <p>Upload an 'signal' csv file to visualise OKN detection.</p>
+          <p>Upload a 'signal' csv file to visualise OKN detection.</p>
           <FileUpload />
         </div>
       </div>
