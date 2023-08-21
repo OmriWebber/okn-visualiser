@@ -2,12 +2,12 @@
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 import Chart from 'chart.js/auto'
 
-import { useChartStore } from '@/store';
+import { useVisualStore } from '@/store';
 
 
 export default {
     setup() {
-        const chartStore = useChartStore()
+        const chartStore = useVisualStore()
 
         const chart = ref(null)
         let chartInstance = null

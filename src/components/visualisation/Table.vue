@@ -1,5 +1,5 @@
 <script>
-import { useChartStore } from '@/store'
+import { useVisualStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 
@@ -10,8 +10,8 @@ export default {
         };
     },
     setup() {
-        const store = useChartStore();
-        let storeData = storeToRefs(store).getCSVData;
+        const store = useVisualStore();
+        let storeData = storeToRefs(store).getData;
 
         onUnmounted(() => {
             return { data : null }

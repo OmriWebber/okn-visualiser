@@ -1,15 +1,12 @@
 <script>
-import Graph from '../components/Graph.vue'
-import Table from '../components/Table.vue'
-import Controls from '../components/Controls.vue'
-import FileUpload from '../components/fileUpload.vue'
-import { useChartStore } from '@/store';
+import Graph from '../components/visualisation/Graph.vue'
+import Table from '../components/visualisation/Table.vue'
+import FileUpload from '../components/visualisation/fileUpload.vue'
 
 export default {
   components: {
     Graph,
     Table,
-    Controls,
     FileUpload
   }
 }

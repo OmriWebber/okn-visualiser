@@ -1,8 +1,8 @@
 <script>
-import Graph from '../components/Graph.vue'
-import Table from '../components/Table.vue'
-import Controls from '../components/Controls.vue'
-import FileUpload from '../components/fileUpload.vue'
+import Graph from '../components/manipulation/Graph.vue'
+import Table from '../components/manipulation/Table.vue'
+import Controls from '../components/manipulation/Controls.vue'
+import FileUpload from '../components/manipulation/fileUpload.vue'
 
 export default {
   components: {

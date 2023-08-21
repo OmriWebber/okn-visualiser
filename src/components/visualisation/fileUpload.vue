@@ -1,12 +1,12 @@
 <script>
 import Papa from 'papaparse';
-import { useChartStore } from '@/store';
+import { useVisualStore } from '@/store';
 
 export default {
   methods: {
     handleFileUpload(event) {
         const file = event.target.files[0];
-        const chartStore = useChartStore();
+        const chartStore = useVisualStore();
 
         if (file) {
             Papa.parse(file, {
