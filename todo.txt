@@ -1,0 +1,10 @@
+Todo :
+
+- Revise HiFi to include export button
+
+- Color in Line between datapoints
+- File Upload Verification
+- Alert Notifications
+- Manipulation Controls & Functions
+- Export via CSV / JSON
+- 
