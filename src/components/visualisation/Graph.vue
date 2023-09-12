@@ -33,7 +33,8 @@ export default {
                     fill: false,
                     pointRadius: 1,
                     //borderColor: '#ff0000',
-                    borderColor: rawData.map(row => row.is_sp ? '#00ff00' : row.is_qp ? '#ff0000' : '#000000'),
+                    borderColor: rawData.map(row => row.is_sp ? '#ff0000' : row.is_qp ? '#00ff00' : '#000000'),
+
                 }
                 ]
             }
