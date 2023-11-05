@@ -1,5 +1,5 @@
 <script>
-import { useVisualStore } from '@/store'
+import { useVisualStore } from '@/store/visual'
 import { storeToRefs } from 'pinia'
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 

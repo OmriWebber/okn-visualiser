@@ -1,5 +1,31 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useVisualStore } from '@/store/visual'
+import { useManipStore } from '@/store/manip'
+import Papa from 'papaparse';
+
+
+import csv from '@/assets/testData/signal.csv';
+
+function handleFileUpload() {
+    console.log("test");
+    const file = csv;
+    const manipStore = useManipStore();
+    const visualStore = useVisualStore();
+    manipStore.setData(csv);
+    visualStore.setData(csv);
+    if (file) {
+        Papa.parse(file, {
+            header: false,
+            dynamicTyping: true,
+            complete: result => {
+                const data = result.data;
+                console.log(data)
+                
+            }
+        });
+    }
+}
 
 </script>
 
@@ -13,6 +39,7 @@ import { RouterLink } from 'vue-router';
             <ul class="nav-links">
                 <RouterLink to="/">Visualisation</RouterLink>
                 <RouterLink to="/manipulation">Manipulation</RouterLink>
+                <el-button type="info" id="loadTestData" @click="handleFileUpload">Load Test Data</el-button>
             </ul>
         </nav>
     </header>

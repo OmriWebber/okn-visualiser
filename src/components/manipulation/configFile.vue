@@ -1,5 +1,6 @@
 
 <script>
+import { useManipStore } from '@/store/manip'
 
 </script>
 

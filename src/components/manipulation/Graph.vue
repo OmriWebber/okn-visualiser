@@ -2,7 +2,8 @@
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 import Chart from 'chart.js/auto'
 
-import { useManipStore } from '@/store';
+import { useManipStore } from '@/store/manip'
+
 
 
 export default {
@@ -11,9 +12,6 @@ export default {
 
         const chart = ref(null)
         let chartInstance = null
-
-        const skipped = (ctx, value) => ctx.p0.skip || ctx.p1.skip ? value : undefined;
-        const down = (ctx, value) => ctx.p0.parsed.y > ctx.p1.parsed.y ? value : undefined;
 
         onUnmounted(() => {
             if (chartInstance) chartInstance.destroy()
@@ -33,21 +31,21 @@ export default {
             for (let i = 0; i < rawData.length; i++) {
                 if (rawData[i].is_sp && !rawData[i].is_qp) {
                     coloredDataset.push({
-                        data: {x: rawData[i].t, y: rawData[i].x},
+                        data: {x: rawData[i].t, y: rawData[i].y},
                         fill: false,
                         pointRadius: 1,
                         borderColor: '#00ff00',
                     })
                 } else if (rawData[i].is_qp && !rawData[i].is_sp) {
                     coloredDataset.push({
-                        data: {x: rawData[i].t, y: rawData[i].x},
+                        data: {x: rawData[i].t, y: rawData[i].y},
                         fill: false,
                         pointRadius: 1,
                         borderColor: '#ff0000',
                     })
                 } else {
                     coloredDataset.push({
-                        data: {x: rawData[i].t, y: rawData[i].x},
+                        data: {x: rawData[i].t, y: rawData[i].y},
                         fill: false,
                         pointRadius: 1,
                         borderColor: '#000000',
@@ -55,23 +53,20 @@ export default {
                 }
             }
                 
+            console.log(rawData.map(row => ({x: row.t, y: row.x})))
 
             const data = {
                 labels: rawData.map(row => row.t),
-                datasets : coloredDataset
-            }
+                datasets: [
+                {
+                    data: rawData.map(row => ({x: row.t, y: row.x})),
+                    fill: false,
+                    pointRadius: 1,
+                    //borderColor: '#ff0000',
+                    borderColor: rawData.map(row => row.is_sp ? '#ff0000' : row.is_qp ? '#00ff00' : '#000000'),
 
-            function getBorderColor(row) {
-                let color
-                if (row.is_sp && !row.is_qp) {
-                    color = '#00ff00'
-                } else if (row.is_qp && !row.is_sp) {
-                    color = '#ff0000'
-                } else {
-                    color = '#000000'
                 }
-                console.log(color)
-                return color
+                ]
             }
 
             const options = { 
@@ -86,7 +81,8 @@ export default {
                     legend: {
                         display: false
                     } 
-                }
+                },
+                
             }
             
             chartInstance = new Chart(chart.value, {

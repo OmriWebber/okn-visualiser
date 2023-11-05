@@ -22,15 +22,15 @@ export default {
 
       <FileUpload />
       <div class="row">
-        <div class="col-8">
+        <div class="col-md-8">
           <Graph />
         </div>
-        <div class="col-4">
+        <div class="col-md-4">
           <Controls />
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
           <Table />
         </div>
       </div>

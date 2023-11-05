@@ -1,6 +1,7 @@
 <script>
 import Papa from 'papaparse';
-import { useVisualStore } from '@/store';
+import { useVisualStore } from '@/store/visual'
+
 
 export default {
   methods: {

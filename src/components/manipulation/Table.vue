@@ -1,5 +1,5 @@
 <script>
-import { useManipStore } from '@/store'
+import { useManipStore } from '@/store/manip'
 import { storeToRefs } from 'pinia'
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 
@@ -35,39 +35,76 @@ export default {
             <thead class="table-sticky table-dark">
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">x_value</th>
-                    <th scope="col">y_value</th>
-                    <th scope="col">x_nom</th>
-                    <th scope="col">y_nom</th>
-                    <th scope="col">record_timestamp</th>
-                    <th scope="col">sensor_timestamp</th>
-                    <th scope="col">frame_rate</th>
-                    <th scope="col">is_event</th>
-                    <th scope="col">event_id</th>
-                    <th scope="col">direction</th>
-                    <th scope="col">updated_x_nom</th>
-                    <th scope="col">updated_y_nom</th>
-                    <th scope="col">updated_dXdt_nom</th>
-                    <th scope="col">updated_dYdt_nom</th>
+                    <th scope="col">t</th>
+                    <th scope="col">s</th>
+                    <th scope="col">x</th>
+                    <th scope="col">y</th>
+                    <th scope="col">v</th>
+                    <th scope="col">e</th>
+                    <th scope="col">e1</th>
+                    <th scope="col">t_local</th>
+                    <th scope="col">blink</th>
+                    <th scope="col">plateau</th>
+                    <th scope="col">state</th>
+                    <th scope="col">ramp_direction</th>
+                    <th scope="col">sp_start_time</th>
+                    <th scope="col">sp_end_time</th>
+                    <th scope="col">sp_start_displacement</th>
+                    <th scope="col">sp_end_displacement</th>
+                    <th scope="col">sp_duration</th>
+                    <th scope="col">qp_start_time</th>
+                    <th scope="col">qp_end_time</th>
+                    <th scope="col">qp_start_displacement</th>
+                    <th scope="col">qp_end_displacement</th>
+                    <th scope="col">qp_duration</th>
+                    <th scope="col">chain_id</th>
+                    <th scope="col">expected_sp_ramp_direction</th>
+                    <th scope="col">expected_qp_ramp_direction</th>
+                    <th scope="col">expected_qp_peak_velocity</th>
+                    <th scope="col">expected_sp_end_peak_type</th>
+                    <th scope="col">expected_sp_end_bound</th>
+                    <th scope="col">result_id</th>
+                    <th scope="col">result_chain_id</th>
+                    <th scope="col">is_sp</th>
+                    <th scope="col">is_qp</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr v-for="(item) in data" :key="item">
-                    <td>{{ item.x_value }}</td>
-                    <td>{{ item.y_value }}</td>
-                    <td>{{ item.x_nom }}</td>
-                    <td>{{ item.y_nom }}</td>
-                    <td>{{ item.record_timestamp }}</td>
-                    <td>{{ item.sensor_timestamp }}</td>
-                    <td>{{ item.frame_rate }}</td>
-                    <td>{{ item.is_event }}</td>
-                    <td>{{ item.event_id }}</td>
-                    <td>{{ item.direction }}</td>
-                    <td>{{ item.updated_x_nom }}</td>
-                    <td>{{ item.updated_y_nom }}</td>
-                    <td>{{ item.updated_dXdt_nom }}</td>
-                    <td>{{ item.updated_dYdt_nom }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.t }}</td>
+                    <td>{{ item.s }}</td>
+                    <td>{{ item.x }}</td>
+                    <td>{{ item.y }}</td>
+                    <td>{{ item.v }}</td>
+                    <td>{{ item.e }}</td>
+                    <td>{{ item.e1 }}</td>
+                    <td>{{ item.t_local }}</td>
+                    <td>{{ item.blink }}</td>
+                    <td>{{ item.plateau }}</td>
+                    <td>{{ item.state }}</td>
+                    <td>{{ item.ramp_direction }}</td>
+                    <td>{{ item.sp_start_time }}</td>
+                    <td>{{ item.sp_end_time }}</td>
+                    <td>{{ item.sp_start_displacement }}</td>
+                    <td>{{ item.sp_end_displacement }}</td>
+                    <td>{{ item.sp_duration }}</td>
+                    <td>{{ item.qp_start_time }}</td>
+                    <td>{{ item.qp_end_time }}</td>
+                    <td>{{ item.qp_start_displacement }}</td>
+                    <td>{{ item.qp_end_displacement }}</td>
+                    <td>{{ item.qp_duration }}</td>
+                    <td>{{ item.chain_id }}</td>
+                    <td>{{ item.expected_sp_ramp_direction }}</td>
+                    <td>{{ item.expected_qp_ramp_direction }}</td>
+                    <td>{{ item.expected_qp_peak_velocity }}</td>
+                    <td>{{ item.expected_sp_end_peak_type }}</td>
+                    <td>{{ item.expected_sp_end_bound }}</td>
+                    <td>{{ item.result_id }}</td>
+                    <td>{{ item.result_chain_id }}</td>
+                    <td>{{ item.is_sp }}</td>
+                    <td>{{ item.is_qp }}</td>
                 </tr>
                 
             </tbody>

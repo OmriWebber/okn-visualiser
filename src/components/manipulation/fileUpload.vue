@@ -1,6 +1,7 @@
 <script>
 import Papa from 'papaparse';
-import { useManipStore } from '@/store';
+import { useManipStore } from '@/store/manip'
+
 
 
 export default {

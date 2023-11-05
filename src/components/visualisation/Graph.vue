@@ -2,7 +2,8 @@
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 import Chart from 'chart.js/auto'
 
-import { useVisualStore } from '@/store';
+import { useVisualStore } from '@/store/visual'
+
 
 
 export default {
