@@ -4,8 +4,8 @@ import { ref } from 'vue'
 
 const manipStore = useManipStore();
 console.log(manipStore)
-
-const value1 = ref(0)
+ 
+const value1 = ref(manipStore.maxXValue)
 const value2 = ref(0)
 const value3 = ref(0)
 const value4 = ref(0)
