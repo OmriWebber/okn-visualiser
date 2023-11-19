@@ -4,8 +4,6 @@ import Chart from 'chart.js/auto'
 
 import { useManipStore } from '@/store/manip'
 
-
-
 export default {
     setup() {
         const chartStore = useManipStore()
@@ -26,62 +24,72 @@ export default {
                 rawData = toRaw(newData)
             }
 
-            let coloredDataset = []
-            console.log(rawData)
+            // Format data for chart
+            let formattedData = []
+            let labels = []
+            let oknStatus = []
             for (let i = 0; i < rawData.length; i++) {
-                if (rawData[i].is_sp && !rawData[i].is_qp) {
-                    coloredDataset.push({
-                        data: {x: rawData[i].t, y: rawData[i].y},
-                        fill: false,
-                        pointRadius: 1,
-                        borderColor: '#00ff00',
-                    })
-                } else if (rawData[i].is_qp && !rawData[i].is_sp) {
-                    coloredDataset.push({
-                        data: {x: rawData[i].t, y: rawData[i].y},
-                        fill: false,
-                        pointRadius: 1,
-                        borderColor: '#ff0000',
-                    })
+                if(rawData[i].state == 'IN_SP') {
+                    oknStatus.push('green')
+                } else if(rawData[i].state == 'IN_QP') {
+                    oknStatus.push('red')
                 } else {
-                    coloredDataset.push({
-                        data: {x: rawData[i].t, y: rawData[i].y},
-                        fill: false,
-                        pointRadius: 1,
-                        borderColor: '#000000',
-                    })
+                    oknStatus.push('black')
                 }
-            }
-                
-            console.log(rawData.map(row => ({x: row.t, y: row.x})))
 
+                labels.push(Math.round(rawData[i].t * 1000) / 1000)
+                formattedData.push(rawData[i].x * -1)
+            }
+
+            // Create data object for chart
             const data = {
-                labels: rawData.map(row => row.t),
-                datasets: [
-                {
-                    data: rawData.map(row => ({x: row.t, y: row.x})),
+                labels: labels,
+                datasets: [{
+                    label : 'X Position',
+                    data : formattedData,
                     fill: false,
                     pointRadius: 1,
-                    //borderColor: '#ff0000',
-                    borderColor: rawData.map(row => row.is_sp ? '#ff0000' : row.is_qp ? '#00ff00' : '#000000'),
-
-                }
-                ]
+                    spanGaps: true,
+                    borderColor: oknStatus,
+                    segment: {
+                        borderColor: ctx => {
+                            let index = ctx.p0.parsed.x;
+                            return oknStatus[index];
+                        }
+                    }
+                }]
+                    
             }
+
 
             const options = { 
                 responsive: true, 
                 maintainAspectRatio: true, 
                 fill: false,
-                interaction: {
-                    intersect: false
-                },
-                radius: 0,
                 plugins: { 
                     legend: {
                         display: false
-                    } 
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.formattedValue || '';
+                                if (label) {
+                                    label += '\n\n';
+                                }
+                                if (context.dataset.borderColor[context.dataIndex] == 'green') {
+                                    label += 'OKN Status: In Slow Phase';
+                                } else if (context.dataset.borderColor[context.dataIndex] == 'red') {
+                                    label += 'OKN Status: In Quick Phase';
+                                } else {
+                                    label += 'OKN Status: Not Found';
+                                }
+                                return label;
+                            }
+                        }
+                    }
                 },
+                
                 
             }
             
