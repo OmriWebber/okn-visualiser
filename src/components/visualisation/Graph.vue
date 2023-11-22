@@ -80,14 +80,18 @@ export default {
                     },
                     zoom: {
                         zoom: {
-                        wheel: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: 'xy',
+                        },
+                        pan: {
                             enabled: true,
+                            mode: 'xy',
                         },
-                        pinch: {
-                            enabled: true
-                        },
-                        mode: 'xy',
-                        }
                     },
                     tooltip: {
                         callbacks: {
