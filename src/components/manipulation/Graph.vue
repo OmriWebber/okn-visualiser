@@ -1,8 +1,11 @@
 <script>
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 import Chart from 'chart.js/auto'
+import zoomPlugin from 'chartjs-plugin-zoom';
 
 import { useManipStore } from '@/store/manip'
+
+Chart.register(zoomPlugin);
 
 export default {
     setup() {
@@ -37,6 +40,11 @@ export default {
                     oknStatus.push('black')
                 }
 
+                // Account for first point being a plateau and shifting the oknStatus array
+                if (i == 0) {
+                    oknStatus.pop()
+                }
+
                 labels.push(Math.round(rawData[i].t * 1000) / 1000)
                 formattedData.push(rawData[i].x * -1)
             }
@@ -45,7 +53,7 @@ export default {
             const data = {
                 labels: labels,
                 datasets: [{
-                    label : 'X Position',
+                    label : 'Eye X Position by Time',
                     data : formattedData,
                     fill: false,
                     pointRadius: 1,
@@ -68,7 +76,22 @@ export default {
                 fill: false,
                 plugins: { 
                     legend: {
-                        display: false
+                        display: true
+                    },
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true,
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: 'xy',
+                        },
+                        pan: {
+                            enabled: true,
+                            mode: 'xy',
+                        }
                     },
                     tooltip: {
                         callbacks: {
@@ -122,7 +145,11 @@ export default {
             chartInstance.options.onClick = clickHandler;
         });
 
-        return { chart, focusedPoint: chartStore.focusedPoint }
+        const resetZoom = () => {
+            chartInstance.resetZoom();
+        }
+
+        return { chart, focusedPoint: chartStore.focusedPoint, resetZoom }
     }
 };
 
@@ -135,12 +162,13 @@ export default {
         <div class="graph">
             <canvas ref="chart"></canvas>
         </div>
+        <el-button class="resetZoom" type="info" @click="resetZoom">Reset Zoom</el-button>
     </div>
 </template>
 
 <style lang="scss" scoped>
     .graph-wrapper {
-        height: 100%;
+        height: 150%;
         .graph {
             max-width: 100%;
         }

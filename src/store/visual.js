@@ -1,3 +1,5 @@
+// Path: src/store/visual.js
+
 import { defineStore } from 'pinia';
 
 export const useVisualStore = defineStore({
@@ -29,3 +31,8 @@ export const useVisualStore = defineStore({
       }
     }
   });
+
+
+
+
+

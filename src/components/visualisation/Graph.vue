@@ -1,7 +1,10 @@
 <script>
 import { ref, watch, isProxy, toRaw, onUnmounted,  } from 'vue';
 import Chart from 'chart.js/auto'
+import zoomPlugin from 'chartjs-plugin-zoom';
 import { useVisualStore } from '@/store/visual'
+
+Chart.register(zoomPlugin);
 
 export default {
     setup() {
@@ -29,6 +32,7 @@ export default {
             let labels = []
             let oknStatus = []
             for (let i = 0; i < rawData.length; i++) {
+                
                 if((rawData[i].is_sp == 'true' && rawData[i].is_qp == 'false') || (rawData[i].is_sp == true && rawData[i].is_qp == false)) {
                     oknStatus.push('green')
                 } else if((rawData[i].is_qp == 'true' && rawData[i].is_sp == 'false') || (rawData[i].is_qp == true && rawData[i].is_sp == false)) {
@@ -37,7 +41,12 @@ export default {
                     oknStatus.push('black')
                 }
 
-                labels.push(Math.round(rawData[i].t * 1000) / 1000)
+                // Account for first point being a plateau and shifting the oknStatus array
+                if (i == 0) {
+                    oknStatus.pop()
+                }
+
+                labels.push(Math.round(rawData[i].t * 100) / 100)
                 formattedData.push(rawData[i].x * -1)
             }
 
@@ -68,7 +77,36 @@ export default {
                 plugins: { 
                     legend: {
                         display: false
-                    } 
+                    },
+                    zoom: {
+                        zoom: {
+                        wheel: {
+                            enabled: true,
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'xy',
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.formattedValue || '';
+                                if (label) {
+                                    label += '\n\n';
+                                }
+                                if (context.dataset.borderColor[context.dataIndex] == 'green') {
+                                    label += 'OKN Status: In Slow Phase';
+                                } else if (context.dataset.borderColor[context.dataIndex] == 'red') {
+                                    label += 'OKN Status: In Quick Phase';
+                                } else {
+                                    label += 'OKN Status: Not Found';
+                                }
+                                return label;
+                            }
+                        }
+                    }
                 },
             }
             
@@ -87,12 +125,12 @@ export default {
                     const label = chartInstance.data.labels[firstPoint.index];
                     const value = chartInstance.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
                     
-                    chartStore.setFocusedPoint(value);
-                    console.log(chartStore.focusedPoint);
+                    
+                    console.log(chartStore.focusedPoint, label);
 
                     let rawPoint = chartStore.focusedPoint;
 
-                    if(isProxy(rawPoint)) {
+                    if(isProxy(value)) {
                         rawPoint = toRaw(chartStore.focusedPoint)
                     }
                     chartStore.setFocusedPoint(rawPoint);
@@ -103,7 +141,11 @@ export default {
             chartInstance.options.onClick = clickHandler;
         });
 
-        return { chart, focusedPoint: chartStore.focusedPoint }
+        const resetZoom = () => {
+            chartInstance.resetZoom();
+        }
+
+        return { chart, focusedPoint: chartStore.focusedPoint, resetZoom }
     }
 };
 </script>
@@ -114,6 +156,7 @@ export default {
         <div class="graph">
             <canvas ref="chart"></canvas>
         </div>
+        <el-button class="resetZoom" type="info" @click="resetZoom">Reset Zoom</el-button>
     </div>
 </template>
 

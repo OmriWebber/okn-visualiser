@@ -7,6 +7,7 @@ export default {
     data() {
         return {
             data: ref(null),
+            focusPoint: ref(null),
         };
     },
     setup() {
