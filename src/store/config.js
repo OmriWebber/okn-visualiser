@@ -1,6 +1,5 @@
 import { useManipStore } from '@/store/manip'
 import { defineStore } from 'pinia';
-import { ref } from 'Vue';
 
 const manipStore = useManipStore();
 
