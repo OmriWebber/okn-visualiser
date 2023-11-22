@@ -22,7 +22,6 @@ export const useConfigStore = defineStore({
         },
         updateAmplitude(value) {
             this.Amplitude = value;
-
         },
         updateRamping(value) {
             this.Ramping = value;
@@ -35,11 +34,13 @@ export const useConfigStore = defineStore({
         },
         apply() {
             const updatedData = manipStore.originalData.map(item => {
-                const x = item.x;
+                const t = item.t;
                 const y = item.y;
-                const newY = y + this.Amplitude * Math.sin(this.Ramping * x);
-                return {x, y: newY};
+                const newY = y + this.Amplitude * Math.sin(this.Ramping * y);
+                console.log(y, newY);
+                return {...item, t, y: newY};
             });
+            console.log(updatedData)
             manipStore.setData(updatedData);
         }
     }

@@ -69,12 +69,12 @@ const downloadData = () => {
                 <div class="slider-demo-block">
                     <span class="demonstration">Min Y</span>
                     {{ formatTooltip(minYValue).toFixed(3) }}
-                    <el-slider v-model="minYValue" @change="updateMinYSlider" :min=manipStore.defaultConfig.minYValue*100 :max=manipStore.defaultConfig.maxYValue*100 step="0.01" :format-tooltip="formatTooltip" />
+                    <el-slider v-model="minYValue" @change="updateMinYSlider" :min=manipStore.defaultConfig.minYValue*100 :max=manipStore.defaultConfig.maxYValue*100 step=0.01 :format-tooltip="formatTooltip" />
                 </div>
                 <div class="slider-demo-block">
                     <span class="demonstration">Max Y</span>
                     {{ formatTooltip(maxYValue).toFixed(3) }}
-                    <el-slider v-model="maxYValue" @change="updateMaxYSlider" :min=manipStore.defaultConfig.maxYValue*100 :max=(manipStore.defaultConfig.maxYValue*100)+1 step="0.01" :format-tooltip="formatTooltip" />
+                    <el-slider v-model="maxYValue" @change="updateMaxYSlider" :min=manipStore.defaultConfig.maxYValue*100 :max=(manipStore.defaultConfig.maxYValue*100)+1 step=0.01 :format-tooltip="formatTooltip" />
                 </div>
                 <div class="slider-demo-block">
                     <span class="demonstration">Amplitude</span>
@@ -87,8 +87,8 @@ const downloadData = () => {
             </div>
 
             <div class="row" style="justify-content: space-evenly; margin-top:30px;">
-                <el-button class="col-5" type="danger">Reset</el-button>
-                <el-button class="col-5" type="success">Apply</el-button>
+                <el-button @click="configStore.reset()" class="col-5" type="danger">Reset</el-button>
+                <el-button @click="configStore.apply()" class="col-5" type="success">Apply</el-button>
             </div>
             
         </div>
